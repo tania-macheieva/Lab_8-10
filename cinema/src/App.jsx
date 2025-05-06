@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { movies } from './data/movies';
 import MovieList from './components/MovieList';
 import SearchBar from './components/SearchBar'; 
-import SeatBooking from './components/SeatBooking'; 
+import SeatBooking from './pages/SeatBooking'; 
 
 import '../src/css/App.css';
 
