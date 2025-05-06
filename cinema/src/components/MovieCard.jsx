@@ -46,7 +46,7 @@ const MovieCard = ({ movie }) => {
           <p className="movie-description">{movie.description}</p>
           
           <div className="movie-schedule">
-            <h3>Showtimes</h3>
+            <h3>Сеанси</h3>
             <div className="sessions-container">
               {movie.schedule.slice(0, 2).map((session, index) => (
                 <div className="session-chip" key={index}>
@@ -58,8 +58,8 @@ const MovieCard = ({ movie }) => {
           </div>
           
           <div className="movie-actions">
-            <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>Book Tickets</button>
-            <button className="btn btn-secondary">Watch Trailer</button>
+            <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>Купити квиток</button>
+            <button className="btn btn-secondary">Трейлер</button>
           </div>
         </div>
       </div>
@@ -98,12 +98,12 @@ const MovieCard = ({ movie }) => {
           
           <div className="movie-modal-body">
             <div className="movie-modal-section">
-              <h3>Synopsis</h3>
+              <h3>Опис</h3>
               <p className="movie-modal-description">{movie.description}</p>
             </div>
             
             <div className="movie-modal-section">
-              <h3>Available Sessions</h3>
+              <h3>Доступні сеанси</h3>
               <div className="session-grid">
                 {movie.schedule.map((session, index) => (
                   <div 
@@ -113,7 +113,7 @@ const MovieCard = ({ movie }) => {
                   >
                     <div className="session-card-date">{formatFullDate(session.date)}</div>
                     <div className="session-card-time">{session.time}</div>
-                    <div className="session-card-hall">Hall {session.hall || index + 1}</div>
+                    <div className="session-card-hall">Зал {session.hall || index + 1}</div>
                   </div>
                 ))}
               </div>

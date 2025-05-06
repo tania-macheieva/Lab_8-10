@@ -13,9 +13,9 @@ const SeatBooking = () => {
   const [bookingData, setBookingData] = useState({
     standardSeats: 0,
     vipSeats: 0,
-    standardPrice: 12.99,
-    vipPrice: 19.99,
-    bookingFee: 1.50,
+    standardPrice: 150,
+    vipPrice: 250,
+    bookingFee: 20,
     total: 0
   });
 
@@ -122,14 +122,14 @@ const SeatBooking = () => {
   const handleProceedToPayment = () => {
     if (selectedSeats.length === 0) return;
     
-    alert(`Payment for ${selectedSeats.length} seats totaling $${bookingData.total.toFixed(2)} would be processed here.`);
+    alert(`Оплата за ${selectedSeats.length} місця на загальну суму ₴${bookingData.total.toFixed(2)} буде здійснена тут.`);
   };
 
   if (!movie || !session) {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>Loading booking information...</p>
+        <p>Завантаження інформації про бронювання...</p>
       </div>
     );
   }
@@ -152,21 +152,21 @@ const SeatBooking = () => {
           <div className="session-info">
             <span className="session-date">{formatDate(session.date)}</span>
             <span className="session-time">{session.time}</span>
-            <span className="session-hall">Hall {session.hall || 1}</span>
+            <span className="session-hall">Зал {session.hall || 1}</span>
           </div>
         </div>
       </div>
       
       <div className="seat-selection-container">
         <div className="seat-selection-instructions">
-          Please select your seats from the available options below.
+          Будь ласка, виберіть потрібні місця з доступних варіантів нижче.
           <br />
-          VIP seats include extra legroom and complimentary refreshments.
+          VIP-місця мають додатковий простір для ніг та безкоштовні напої.
         </div>
         
         <div className="screen-container">
           <div className="screen"></div>
-          <div className="screen-label">SCREEN</div>
+          <div className="screen-label">ЕКРАН</div>
         </div>
         
         <div className="seat-map">
@@ -201,15 +201,15 @@ const SeatBooking = () => {
         <div className="seat-legend">
           <div className="legend-item">
             <div className="seat available"></div>
-            <span>Available</span>
+            <span>Достпні</span>
           </div>
           <div className="legend-item">
             <div className="seat selected"></div>
-            <span>Selected</span>
+            <span>Вибрані</span>
           </div>
           <div className="legend-item">
             <div className="seat booked"></div>
-            <span>Booked</span>
+            <span>Заброньовані</span>
           </div>
           <div className="legend-item">
             <div className="seat available vip"></div>
@@ -219,33 +219,33 @@ const SeatBooking = () => {
       </div> 
 
       <div className="booking-summary">
-        <h3>Booking Summary</h3>
+        <h3>Підсумок бронювання</h3>
         
         <div className="summary-details">
           {bookingData.standardSeats > 0 && (
             <div className="summary-item">
-              <span>Standard Seats × {bookingData.standardSeats}</span>
-              <span>${(bookingData.standardSeats * bookingData.standardPrice).toFixed(2)}</span>
+              <span>Стандартні місця {bookingData.standardSeats}</span>
+              <span>₴{(bookingData.standardSeats * bookingData.standardPrice).toFixed(2)}</span>
             </div>
           )}
           
           {bookingData.vipSeats > 0 && (
             <div className="summary-item">
-              <span>VIP Seats × {bookingData.vipSeats}</span>
-              <span>${(bookingData.vipSeats * bookingData.vipPrice).toFixed(2)}</span>
+              <span>VIP місця {bookingData.vipSeats}</span>
+              <span>₴{(bookingData.vipSeats * bookingData.vipPrice).toFixed(2)}</span>
             </div>
           )}
           
           {selectedSeats.length > 0 && (
             <div className="summary-item">
-              <span>Booking Fee</span>
-              <span>${bookingData.bookingFee.toFixed(2)}</span>
+              <span>Комісія</span>
+              <span>₴{bookingData.bookingFee.toFixed(2)}</span>
             </div>
           )}
           
           <div className="summary-item total">
-            <span>Total</span>
-            <span>${bookingData.total.toFixed(2)}</span>
+            <span>Всього</span>
+            <span>₴{bookingData.total.toFixed(2)}</span>
           </div>
         </div>
         
@@ -254,14 +254,14 @@ const SeatBooking = () => {
             className="btn btn-secondary" 
             onClick={handleCancel}
           >
-            Cancel
+            Скасувати
           </button>
           <button 
             className={`btn btn-primary ${selectedSeats.length === 0 ? 'disabled' : ''}`}
             onClick={handleProceedToPayment}
             disabled={selectedSeats.length === 0}
           >
-            Proceed to Payment
+            Перейти до оплати
           </button>
         </div>
       </div>
