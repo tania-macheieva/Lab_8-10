@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; 
+import { movies } from './data/movies';
+import MovieList from './components/MovieList';
+import SearchBar from './components/SearchBar'; 
+import '../src/css/App.css';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -26,8 +30,7 @@ function App() {
         
         <main>
           <Routes>
-            <Route path="/" element={<MovieList movies={filteredMovies} />} />
-            <Route path="/booking/:movieId" element={<SeatBooking />} />
+            <Route path="/" element={<MovieList movies={filteredMovies} />} /> 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
