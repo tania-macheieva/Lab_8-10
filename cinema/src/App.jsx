@@ -10,7 +10,6 @@ import '../src/css/App.css';
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   
-  // Filter movies based on search query
   const filteredMovies = movies.filter(movie =>
     movie.title.toLowerCase().includes(searchQuery.toLowerCase())
   );

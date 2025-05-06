@@ -1,4 +1,16 @@
-/* SeatBooking.css */
+:root {
+  --primary: #F2AC33;
+  --primary-light: #ff9e2c;
+  --secondary: #1a2133;
+  --light: #ffffff;
+  --card-bg: #1c2436;
+  --vip-primary: #7b2cbf;
+  --vip-secondary: #9d4edd;
+  --vip-accent: #8338ec;
+  --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --transition-default: all 0.3s ease;
+}
+
 .seat-booking-container {
   width: 100%;
   max-width: 1000px;
@@ -10,29 +22,27 @@
   position: relative;
 }
 
-/* Додаємо декоративний ефект з кутів */
-.seat-booking-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle at top left, var(--primary) 5%, transparent 70%);
-  opacity: 0.3;
-  pointer-events: none;
-}
-
+.seat-booking-container::before,
 .seat-booking-container::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  right: 0;
   width: 100px;
   height: 100px;
-  background: radial-gradient(circle at bottom right, var(--primary) 5%, transparent 70%);
   opacity: 0.3;
   pointer-events: none;
+  will-change: opacity;
+}
+
+.seat-booking-container::before {
+  top: 0;
+  left: 0;
+  background: radial-gradient(circle at top left, var(--primary) 5%, transparent 70%);
+}
+
+.seat-booking-container::after {
+  bottom: 0;
+  right: 0;
+  background: radial-gradient(circle at bottom right, var(--primary) 5%, transparent 70%);
 }
 
 .movie-info-banner {
@@ -48,10 +58,7 @@
 .movie-info-banner::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
   opacity: 0.5;
   z-index: 0;
@@ -64,9 +71,10 @@
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
   margin-right: 25px;
-  transition: transform 0.3s ease;
+  transition: var(--transition-default);
   position: relative;
   z-index: 1;
+  will-change: transform;
 }
 
 .movie-info-poster:hover {
@@ -93,13 +101,14 @@
 .movie-info-details {
   position: relative;
   z-index: 1;
+  flex: 1;
 }
 
 .movie-info-details h2 {
   font-size: 1.8rem;
   margin-bottom: 15px;
   color: var(--light);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--text-shadow);
   position: relative;
   display: inline-block;
 }
@@ -118,38 +127,20 @@
 .session-info {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
   color: var(--light);
   opacity: 0.8;
   font-size: 1rem;
 }
 
-.session-date {
-  margin-right: 15px;
-  position: relative;
-  padding-left: 22px;
-}
-
-.session-date::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23F2AC33' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
+.session-date,
 .session-time {
-  font-weight: 700;
-  color: var(--primary);
-  margin-right: 15px;
   position: relative;
   padding-left: 22px;
 }
 
+.session-date::before,
 .session-time::before {
   content: '';
   position: absolute;
@@ -158,13 +149,25 @@
   transform: translateY(-50%);
   width: 16px;
   height: 16px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23F2AC33' viewBox='0 0 16 16'%3E%3Cpath d='M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'/%3E%3Cpath d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z'/%3E%3C/svg%3E");
   background-size: contain;
   background-repeat: no-repeat;
 }
 
+.session-date::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23F2AC33' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E");
+}
+
+.session-time {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.session-time::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23F2AC33' viewBox='0 0 16 16'%3E%3Cpath d='M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'/%3E%3Cpath d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z'/%3E%3C/svg%3E");
+}
+
 .session-hall {
-  background: linear-gradient(135deg, var(--primary) 0%, #ff9e2c 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: var(--secondary);
   padding: 4px 12px;
   border-radius: 20px;
@@ -288,8 +291,9 @@
   border-radius: 8px 8px 3px 3px;
   cursor: pointer;
   position: relative;
-  transition: all 0.3s ease;
+  transition: var(--transition-default);
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  will-change: transform, box-shadow, background;
 }
 
 .seat::after {
@@ -329,18 +333,18 @@
 }
 
 .seat.vip {
-  background: linear-gradient(to bottom, #7b2cbf 0%, #6a24a5 100%);
+  background: linear-gradient(to bottom, var(--vip-primary) 0%, #6a24a5 100%);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .seat.vip:hover {
-  background: linear-gradient(to bottom, #9d4edd 0%, #8338ec 100%);
+  background: linear-gradient(to bottom, var(--vip-secondary) 0%, var(--vip-accent) 100%);
   transform: translateY(-3px) scale(1.1);
   box-shadow: 0 5px 10px rgba(123, 44, 191, 0.3);
 }
 
 .seat.vip.selected {
-  background: linear-gradient(to bottom, #9d4edd 0%, #8338ec 100%);
+  background: linear-gradient(to bottom, var(--vip-secondary) 0%, var(--vip-accent) 100%);
   box-shadow: 0 0 15px rgba(157, 78, 221, 0.6);
   transform: translateY(-3px);
 }
@@ -390,10 +394,7 @@
 .booking-summary::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
   opacity: 0.5;
   z-index: 0;
@@ -473,11 +474,12 @@
   font-size: 1rem;
   font-weight: 600;
   border-radius: 30px;
-  transition: all 0.3s ease;
+  transition: var(--transition-default);
+  will-change: transform, box-shadow;
 }
 
 .booking-actions .btn-primary {
-  background: linear-gradient(135deg, var(--primary) 0%, #ff9e2c 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   border: none;
   box-shadow: 0 8px 15px rgba(242, 172, 51, 0.3);
 }
@@ -501,14 +503,9 @@
 .btn.disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
-.btn.disabled:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-/* Анімація при виборі місця */
 @keyframes seatPulse {
   0% {
     box-shadow: 0 0 0 0 rgba(242, 172, 51, 0.7);
@@ -548,11 +545,11 @@
   
   .session-info {
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
   }
   
-  .session-date, .session-time {
-    margin-right: 0;
+  .seat-selection-container {
+    padding: 30px 15px;
   }
   
   .seat {
@@ -579,5 +576,29 @@
   
   .booking-summary {
     padding: 25px 15px;
+  }
+  
+  .seat-legend {
+    gap: 15px;
+    padding: 10px 15px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .seat-selection-container {
+    padding: 30px 20px;
+  }
+  
+  .seat {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .seats {
+    gap: 8px;
+  }
+  
+  .booking-summary {
+    padding: 30px 20px;
   }
 }

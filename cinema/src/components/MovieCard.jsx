@@ -6,24 +6,19 @@ const MovieCard = ({ movie }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Helper function to format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
-  // Function to format date for modal
   const formatFullDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
   };
 
-  // Function to handle booking
   const handleBookSession = (session) => {
-    // Close the modal
     setIsModalOpen(false);
     
-    // Navigate to the booking page with movie and session info
     navigate(`/booking/${movie.id}`, { 
       state: { movie, session } 
     });
@@ -69,7 +64,6 @@ const MovieCard = ({ movie }) => {
         </div>
       </div>
 
-      {/* Modal for Movie Details and Booking */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="movie-detail-modal">
           <div className="movie-modal-header">

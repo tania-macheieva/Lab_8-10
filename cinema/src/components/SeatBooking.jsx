@@ -7,8 +7,6 @@ const SeatBooking = () => {
   const { movieId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  
-  // Get movie and session data from location state or fetch based on ID
   const [movie, setMovie] = useState(location.state?.movie || null);
   const [session, setSession] = useState(location.state?.session || null);
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -21,24 +19,25 @@ const SeatBooking = () => {
     total: 0
   });
 
-  // If movie/session wasn't passed via location state, fetch it based on URL parameters
   useEffect(() => {
     if (!movie && movieId) {
-      const foundMovie = movies.find(m => m.id === parseInt(movieId) || m.id === movieId);
+      const foundMovie = movies.find(m => 
+        m.id === parseInt(movieId) || 
+        m.id === movieId ||
+        m.id.toString() === movieId.toString()
+      );
+      
       if (foundMovie) {
         setMovie(foundMovie);
-        // Set first session as default if none was selected
         if (!session && foundMovie.schedule && foundMovie.schedule.length > 0) {
           setSession(foundMovie.schedule[0]);
         }
       } else {
-        // Movie not found, redirect to home
         navigate('/');
       }
     }
   }, [movieId, movie, session, navigate]);
 
-  // Sample seat data (in a real app, this would come from an API)
   const seatRows = [
     { row: 'A', seats: [
       { id: 'A1', status: 'available' }, { id: 'A2', status: 'available' },
@@ -71,42 +70,42 @@ const SeatBooking = () => {
       { id: 'E7', status: 'available', type: 'vip' }, { id: 'E8', status: 'available', type: 'vip' }
     ]}
   ];
-  
-  // Format date string
+
   const formatDate = (dateString) => {
     if (!dateString) return '';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return dateString; 
+    }
   };
 
-  // Handle seat selection
   const handleSeatClick = (seat) => {
     if (seat.status === 'booked') return;
-    
-    // Check if seat is already selected
+  
     const seatIndex = selectedSeats.findIndex(s => s.id === seat.id);
     
     let updatedSeats;
     if (seatIndex !== -1) {
-      // Remove seat if already selected
       updatedSeats = [...selectedSeats];
       updatedSeats.splice(seatIndex, 1);
     } else {
-      // Add seat to selection
       updatedSeats = [...selectedSeats, seat];
     }
     
     setSelectedSeats(updatedSeats);
   };
-  
-  // Update booking data when selected seats change
+
   useEffect(() => {
     const standardSeats = selectedSeats.filter(seat => !seat.type || seat.type !== 'vip').length;
     const vipSeats = selectedSeats.filter(seat => seat.type === 'vip').length;
     
     const standardTotal = standardSeats * bookingData.standardPrice;
     const vipTotal = vipSeats * bookingData.vipPrice;
-    const total = standardTotal + vipTotal + (selectedSeats.length > 0 ? bookingData.bookingFee : 0);
+    const bookingFee = selectedSeats.length > 0 ? bookingData.bookingFee : 0;
+    const total = standardTotal + vipTotal + bookingFee;
     
     setBookingData(prev => ({
       ...prev,
@@ -114,22 +113,18 @@ const SeatBooking = () => {
       vipSeats,
       total
     }));
-  }, [selectedSeats]);
+  }, [selectedSeats, bookingData.standardPrice, bookingData.vipPrice, bookingData.bookingFee]);
 
-  // Handler for cancel button
   const handleCancel = () => {
     navigate('/');
   };
-
-  // Handler for proceed to payment
+  
   const handleProceedToPayment = () => {
-    // In a real app, you would redirect to a payment page or show a payment modal
+    if (selectedSeats.length === 0) return;
+    
     alert(`Payment for ${selectedSeats.length} seats totaling $${bookingData.total.toFixed(2)} would be processed here.`);
-    // After successful payment, you could redirect to a confirmation page
-    // navigate('/confirmation', { state: { movie, session, selectedSeats, bookingData } });
   };
 
-  // If movie data is still loading
   if (!movie || !session) {
     return (
       <div className="loading-container">
@@ -141,9 +136,16 @@ const SeatBooking = () => {
 
   return (
     <div className="seat-booking-container">
+      
       <div className="movie-info-banner">
         <div className="movie-info-poster">
-          <img src={movie.posterUrl} alt={movie.title} />
+          <img 
+            src={movie.posterUrl || '/api/placeholder/120/180'} 
+            alt={movie.title} 
+            onError={(e) => {
+              e.target.src = '/api/placeholder/120/180'; 
+            }}
+          />
         </div>
         <div className="movie-info-details">
           <h2>{movie.title}</h2>
@@ -181,6 +183,9 @@ const SeatBooking = () => {
                       className={seatClass} 
                       key={seat.id}
                       onClick={() => handleSeatClick(seat)}
+                      aria-label={`Seat ${seat.id}, ${seat.status}${seat.type === 'vip' ? ', VIP' : ''}`}
+                      role="button"
+                      tabIndex={seat.status !== 'booked' ? 0 : -1}
                     >
                       <span className="seat-number">
                         {seat.id.substring(1)}
@@ -211,8 +216,8 @@ const SeatBooking = () => {
             <span>VIP</span>
           </div>
         </div>
-      </div>
-      
+      </div> 
+
       <div className="booking-summary">
         <h3>Booking Summary</h3>
         
