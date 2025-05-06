@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { movies } from './data/movies';
 import MovieList from './components/MovieList';
 import SearchBar from './components/SearchBar'; 
+import SeatBooking from './components/SeatBooking'; 
+
 import '../src/css/App.css';
 
 function App() {
@@ -30,7 +32,8 @@ function App() {
         
         <main>
           <Routes>
-            <Route path="/" element={<MovieList movies={filteredMovies} />} /> 
+            <Route path="/" element={<MovieList movies={filteredMovies} />} />
+            <Route path="/booking/:movieId" element={<SeatBooking />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
