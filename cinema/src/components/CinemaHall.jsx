@@ -1,13 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import BookingService from "../services/BookingService";
 
-const CinemaHall = ({ seatRows, selectedSeats, onSeatClick }) => {
+const CinemaHall = ({ seatRows: initialSeatRows, selectedSeats, onSeatClick, movieId, session }) => {
+  const [seatRows, setSeatRows] = useState(initialSeatRows);
+  const [loading, setLoading] = useState(true);
+
+  // Завантаження заброньованих місць при зміні фільму або сеансу
+  useEffect(() => {
+    if (movieId && session) {
+      setLoading(true);
+      
+      // Отримуємо всі заброньовані місця для поточного сеансу
+      const bookedSeats = BookingService.getBookedSeatsForSession(
+        movieId,
+        session.date,
+        session.time
+      );
+      
+      // Оновлюємо статус місць на основі заброньованих
+      const updatedSeatRows = initialSeatRows.map(row => {
+        const updatedSeats = row.seats.map(seat => {
+          // Перевіряємо, чи місце знаходиться в списку заброньованих
+          const isBooked = bookedSeats.some(bookedSeat => bookedSeat.id === seat.id);
+          
+          if (isBooked && seat.status !== 'booked') {
+            return { ...seat, status: 'booked' };
+          }
+          
+          return seat;
+        });
+        
+        return {
+          ...row,
+          seats: updatedSeats
+        };
+      });
+      
+      setSeatRows(updatedSeatRows);
+      setLoading(false);
+    }
+  }, [movieId, session, initialSeatRows]);
+
   return (
     <div className="seat-selection-container">
-      <div className="seat-selection-instructions">
-        Будь ласка, виберіть потрібні місця з доступних варіантів нижче.
-        <br />
-        VIP-місця мають додатковий простір для ніг та безкоштовні напої.
-      </div>
+      {loading ? (
+        <div className="loading-indicator">
+          <div className="loading-spinner"></div>
+          <p>Завантаження схеми залу...</p>
+        </div>
+      ) : (
+        <>
+          <div className="seat-selection-instructions">
+            Будь ласка, виберіть потрібні місця з доступних варіантів нижче.
+            <br />
+            VIP-місця мають додатковий простір для ніг та безкоштовні напої.
+          </div>
 
       <div className="screen-container">
         <div className="screen"></div>
@@ -65,6 +112,8 @@ const CinemaHall = ({ seatRows, selectedSeats, onSeatClick }) => {
           <span>VIP</span>
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 };

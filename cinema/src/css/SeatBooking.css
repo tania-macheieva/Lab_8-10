@@ -39,12 +39,7 @@
   background: radial-gradient(circle at top left, var(--primary) 5%, transparent 70%);
 }
 
-.seat-booking-container::after {
-  bottom: 0;
-  right: 0;
-  background: radial-gradient(circle at bottom right, var(--primary) 5%, transparent 70%);
-}
-
+ 
 .movie-info-banner {
   display: flex;
   align-items: center;

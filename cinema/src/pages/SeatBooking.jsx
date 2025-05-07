@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { movies } from "../data/movies";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import CinemaHall from "../components/CinemaHall";
+import BookingForm from "../components/BookingForm";
+import BookingService from "../services/BookingService";
 import "../css/SeatBooking.css";
 
 const SeatBooking = () => {
@@ -19,6 +23,7 @@ const SeatBooking = () => {
 		bookingFee: 20,
 		total: 0,
 	});
+	const [showBookingForm, setShowBookingForm] = useState(false);
 
 	useEffect(() => {
 		if (!movie && movieId) {
@@ -51,8 +56,8 @@ const SeatBooking = () => {
 				{ id: "A1", status: "available" },
 				{ id: "A2", status: "available" },
 				{ id: "A3", status: "available" },
-				{ id: "A4", status: "booked" },
-				{ id: "A5", status: "booked" },
+				{ id: "A4", status: "available" },
+				{ id: "A5", status: "available" },
 				{ id: "A6", status: "available" },
 				{ id: "A7", status: "available" },
 				{ id: "A8", status: "available" },
@@ -76,9 +81,9 @@ const SeatBooking = () => {
 			seats: [
 				{ id: "C1", status: "available" },
 				{ id: "C2", status: "available" },
-				{ id: "C3", status: "booked" },
-				{ id: "C4", status: "booked" },
-				{ id: "C5", status: "booked" },
+				{ id: "C3", status: "available" },
+				{ id: "C4", status: "available" },
+				{ id: "C5", status: "available" },
 				{ id: "C6", status: "available" },
 				{ id: "C7", status: "available" },
 				{ id: "C8", status: "available" },
@@ -101,11 +106,11 @@ const SeatBooking = () => {
 			row: "E",
 			seats: [
 				{ id: "E1", status: "available", type: "vip" },
-				{ id: "E2", status: "booked", type: "vip" },
+				{ id: "E2", status: "available", type: "vip" },
 				{ id: "E3", status: "available", type: "vip" },
 				{ id: "E4", status: "available", type: "vip" },
 				{ id: "E5", status: "available", type: "vip" },
-				{ id: "E6", status: "booked", type: "vip" },
+				{ id: "E6", status: "available", type: "vip" },
 				{ id: "E7", status: "available", type: "vip" },
 				{ id: "E8", status: "available", type: "vip" },
 			],
@@ -176,14 +181,41 @@ const SeatBooking = () => {
 
 	const handleProceedToPayment = () => {
 		if (selectedSeats.length === 0) return;
-
-		alert(
-			`Оплата за ${
-				selectedSeats.length
-			} місця на загальну суму ₴${bookingData.total.toFixed(
-				2
-			)} буде здійснена тут.`
-		);
+		setShowBookingForm(true);
+	};
+	
+	const handleCancelBooking = () => {
+		setShowBookingForm(false);
+	};
+	
+	const handleSubmitBooking = (customerInfo) => {
+		const bookingData = {
+			movieId: movie.id,
+			sessionDate: session.date,
+			sessionTime: session.time,
+			seats: selectedSeats,
+			customerInfo
+		};
+		
+		const result = BookingService.createBooking(bookingData);
+		
+		if (result.success) {
+			toast.success("Бронювання успішно створено!", {
+				position: "top-center",
+				autoClose: 5000
+			});
+			
+			setShowBookingForm(false);
+			
+			setSelectedSeats([]);
+			
+			window.location.reload();
+		} else {
+			toast.error(result.message || "Помилка при створенні бронювання", {
+				position: "top-center",
+				autoClose: 5000
+			});
+		}
 	};
 
 	if (!movie || !session) {
@@ -225,6 +257,8 @@ const SeatBooking = () => {
 				seatRows={seatRows} 
 				selectedSeats={selectedSeats} 
 				onSeatClick={handleSeatClick}
+				movieId={movie.id}
+				session={session}
 			/>
 
 			<div className="booking-summary">
@@ -285,10 +319,23 @@ const SeatBooking = () => {
 						onClick={handleProceedToPayment}
 						disabled={selectedSeats.length === 0}
 					>
-						Перейти до оплати
+						Забронювати
 					</button>
 				</div>
 			</div>
+			
+			{/* Форма бронювання */}
+			{showBookingForm && (
+				<BookingForm 
+					onSubmit={handleSubmitBooking}
+					onCancel={handleCancelBooking}
+					totalAmount={bookingData.total}
+					selectedSeats={selectedSeats}
+				/>
+			)}
+			
+			{/* Контейнер для сповіщень */}
+			<ToastContainer />
 		</div>
 	);
 };
