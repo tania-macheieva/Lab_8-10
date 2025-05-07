@@ -61,24 +61,6 @@ const MovieCard = ({ movie }) => {
 
 					<p className="movie-description">{movie.description}</p>
 
-					<div className="movie-schedule">
-						<h3>Сеанси</h3>
-						<div className="sessions-container">
-							{movie.schedule
-								.slice(0, 2)
-								.map((session, index) => (
-									<div className="session-chip" key={index}>
-										<span className="session-date">
-											{formatDate(session.date)}
-										</span>
-										<span className="session-time">
-											{session.time}
-										</span>
-									</div>
-								))}
-						</div>
-					</div>
-
 					<div className="movie-actions">
 						<button
 							className="btn btn-primary"
