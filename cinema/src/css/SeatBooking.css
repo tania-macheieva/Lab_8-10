@@ -16,7 +16,6 @@
   --transition-smooth: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-/* Main container with improved depth and ambient effect */
 .seat-booking-container {
   width: 100%;
   max-width: 1100px;
@@ -29,7 +28,6 @@
   isolation: isolate;
 }
 
-/* Ambient lighting effect */
 .seat-booking-container::before,
 .seat-booking-container::after {
   content: '';
@@ -72,7 +70,6 @@
   }
 }
 
-/* Movie info banner with enhanced 3D effect */
 .movie-info-banner {
   display: flex;
   align-items: center;
@@ -93,7 +90,6 @@
   z-index: -1;
 }
 
-/* Improved poster with 3D hover effect */
 .movie-info-poster {
   width: 130px;
   height: 195px;
@@ -134,7 +130,6 @@
   pointer-events: none;
 }
 
-/* Movie details with improved typography */
 .movie-info-details {
   position: relative;
   z-index: 1;
@@ -163,7 +158,6 @@
   border-radius: 2px;
 }
 
-/* Improved session info layout */
 .session-info {
   display: flex;
   align-items: center;
@@ -208,7 +202,6 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23F2AC33' viewBox='0 0 16 16'%3E%3Cpath d='M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'/%3E%3Cpath d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z'/%3E%3C/svg%3E");
 }
 
-/* Enhanced hall badge */
 .session-hall {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: var(--secondary);
@@ -251,7 +244,6 @@
   }
 }
 
-/* Enhanced seat selection area */
 .seat-selection-container {
   padding: 40px 30px;
   display: flex;
@@ -275,7 +267,6 @@
   z-index: 0;
 }
 
-/* Loading indicator with improved animation */
 .loading-indicator {
   display: flex;
   flex-direction: column;
@@ -307,7 +298,6 @@
   opacity: 0.8;
 }
 
-/* Error message styling */
 .error-message {
   display: flex;
   flex-direction: column;
@@ -342,7 +332,6 @@
   transform: translateY(-3px);
 }
 
-/* Enhanced seat selection instructions */
 .seat-selection-instructions {
   margin-bottom: 30px;
   text-align: center;
@@ -362,7 +351,6 @@
   font-weight: 600;
 }
 
-/* Seat selection count badge */
 .selected-seats-counter {
   display: inline-flex;
   align-items: center;
@@ -403,7 +391,6 @@
   }
 }
 
-/* Enhanced screen visualization */
 .screen-container {
   margin-bottom: 50px;
   width: 100%;
@@ -475,7 +462,6 @@
   text-shadow: 0 0 10px rgba(242, 172, 51, 0.5);
 }
 
-/* Enhanced seat map */
 .seat-map {
   display: flex;
   flex-direction: column;
@@ -512,7 +498,6 @@
   transform-style: preserve-3d;
 }
 
-/* Enhanced seat styling with 3D effect */
 .seat {
   width: 40px;
   height: 40px;
@@ -607,7 +592,6 @@
   opacity: 0.5;
 }
 
-/* VIP seat styling */
 .seat.vip {
   border: 1px solid rgba(138, 43, 226, 0.4);
   position: relative;
@@ -666,7 +650,6 @@
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
-/* Price tooltip on hover */
 .seat.available::before,
 .seat.selected::before {
   content: attr(data-price);
@@ -695,7 +678,6 @@
   transform: translateX(-50%) translateY(0) scale(1);
 }
 
-/* Seat legend with improved styling */
 .seat-legend {
   display: flex;
   justify-content: center;
@@ -727,7 +709,6 @@
   display: none;
 }
 
-/* Tips section styling */
 .seat-selection-tips {
   margin-top: 20px;
   width: 100%;
@@ -754,7 +735,6 @@
   line-height: 1.4;
 }
 
-/* Enhanced booking summary styling */
 .booking-summary { 
   padding: 35px;
   background: linear-gradient(to bottom, var(--secondary-light) 0%, #222e42 100%);
@@ -817,14 +797,6 @@
   transition: var(--transition-default);
 }
 
-.summary-item:hover {
-  background-color: rgba(255, 255, 255, 0.03);
-  transform: translateX(5px);
-  border-radius: 8px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
 .summary-item:last-child {
   border-bottom: none;
 }
@@ -841,7 +813,6 @@
   font-size: 1rem;
 }
 
-/* Enhanced total row with more prominence */
 .summary-item.total {
   margin-top: 20px;
   padding-top: 20px;
@@ -875,7 +846,6 @@
   text-shadow: 0 2px 10px rgba(242, 172, 51, 0.3);
 }
 
-/* Booking action buttons - enhanced with 3D effects and animations */
 .booking-actions {
   margin-top: 30px;
   display: flex;
@@ -906,7 +876,6 @@
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Primary button with gradient, 3D effect and ripple animation */
 .booking-actions .btn-primary {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: var(--secondary);
@@ -926,7 +895,6 @@
   transition: all 0.2s ease;
 }
 
-/* Ripple effect for primary button */
 .booking-actions .btn-primary::after {
   content: '';
   position: absolute;
@@ -957,7 +925,6 @@
   }
 }
 
-/* Secondary button with border gradient and hover glow */
 .booking-actions .btn-secondary {
   background: transparent;
   color: var(--primary);
@@ -1009,7 +976,6 @@
   transform: translateY(-2px) scale(0.98);
 }
 
-/* Disabled button state */
 .btn.disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -1021,7 +987,6 @@
   display: none;
 }
 
-/* Seat selection count badge */
 .selected-seats-counter {
   display: inline-flex;
   align-items: center;
@@ -1062,7 +1027,6 @@
   }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .booking-actions {
     flex-direction: column;
